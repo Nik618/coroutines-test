@@ -12,7 +12,6 @@ repositories {
 dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
-    implementation("space.kscience:dataforge-workspace:0.7.0")
 }
 
 tasks.test {

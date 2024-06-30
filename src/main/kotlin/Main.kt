@@ -18,7 +18,6 @@ fun parent(): ParallelDeferred<String> {
     )
 }
 
-@OptIn(DelicateCoroutinesApi::class)
 suspend fun main() {
     ParallelDeferred<ParallelDeferred<String>>(
         EmptyCoroutineContext,
