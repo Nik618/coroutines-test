@@ -1,29 +1,26 @@
 package org.example
 
 import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 open class ParallelDeferred<T>(
     private val childrens: List<ParallelDeferred<*>> = emptyList(),
     val producer: suspend () -> T,
 )  {
 
-    private var deferred: Deferred<T>? = null
-
-    suspend fun get(): T {
+    suspend fun get(context: CoroutineContext): T {
 
         val dependencies = childrens.map { children ->
             CoroutineScope(Dispatchers.IO).async {
-                children.get()
+                children.get(context)
             }
         }
 
-        deferred = CoroutineScope(Dispatchers.IO).async {
+        return CoroutineScope(context).async {
             dependencies.forEach {
-                it.await()
+                it.join()
             }
             producer()
-        }
-
-        return deferred!!.await()
+        }.await()
     }
 }
