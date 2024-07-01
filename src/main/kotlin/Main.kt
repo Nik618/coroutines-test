@@ -1,35 +1,28 @@
 package org.example
 
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.random.Random
 
-fun test(): String {
-    println("test")
-    return "test"
+fun test1() {
+    println("test1")
 }
 
-fun parent(): ParallelDeferred<String> {
+fun test2() {
     println("test2")
-    return ParallelDeferred(
-        EmptyCoroutineContext,
-        listOf(),
-        ::test
-    )
+}
+
+fun test3() {
+    println("test3")
 }
 
 suspend fun main() {
-    ParallelDeferred<ParallelDeferred<String>>(
-        EmptyCoroutineContext,
-        listOf(ParallelDeferred<String>(
-            EmptyCoroutineContext,
+    ParallelDeferred<Unit>(
+        listOf(ParallelDeferred<Unit>(
             listOf(),
-            ::test
-        ), ParallelDeferred<String>(
-            EmptyCoroutineContext,
+            ::test1
+        ), ParallelDeferred<Unit>(
             listOf(),
-            ::test
+            ::test2
         )),
-        ::parent
-    ).async(GlobalScope).await()
+        ::test3
+    ).get()
 }
