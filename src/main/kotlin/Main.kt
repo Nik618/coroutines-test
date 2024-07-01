@@ -1,6 +1,8 @@
 package org.example
 
+import kotlinx.coroutines.Dispatchers
 import kotlin.random.Random
+
 
 fun test1() {
     println("test1")
@@ -24,5 +26,5 @@ suspend fun main() {
             ::test2
         )),
         ::test3
-    ).get()
+    ).get(Dispatchers.IO)
 }
